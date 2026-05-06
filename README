@@ -59,7 +59,7 @@ Entorno QA
 -terraform apply -var-file="qa.tfvars" -auto-approve
 -curl -X POST <TU_API_URL_AQUI> \
     -H "Content-Type: image/png" \
-    --data-binary "@../foto.png"
+    --data-binary "@../image.png"
 -Vaciar bucket manualmente en AWS S3, solo debes seleccionar image-processor-qa-images-juancarlosvilca y darle la opción "Empty"
 -terraform destroy -var-file="qa.tfvars" -auto-approve
 
@@ -69,7 +69,7 @@ Entorno PROD
 -terraform workspace new prod
 -terraform plan -var-file="prod.tfvars"
 -terraform apply -var-file="prod.tfvars" -auto-approve
--curl -X POST https://e62e50jeae.execute-api.us-east-1.amazonaws.com/upload \
+-curl -X POST <TU_API_URL_AQUI> \
     -H "Content-Type: image/png" \
     --data-binary "@../image.png"
 -Vaciar bucket manualmente en AWS S3, solo debes seleccionar image-processor-prod-images-juancarlosvilca y darle la opción "Empty"
