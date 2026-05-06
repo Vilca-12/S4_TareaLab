@@ -3,6 +3,7 @@
 resource "aws_s3_bucket" "images" {
   # nombre
   bucket = "${var.project_name}-${var.environment}-images-juancarlosvilca"
+  force_destroy = var.environment != "prod"
 }
 
 # Configuración de Lifecycle
