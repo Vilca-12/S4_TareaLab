@@ -1,7 +1,7 @@
 # Empaquetado del codigo
 data "archive_file" "crop_zip" {
   type        = "zip"
-  source_dir  = "${path.module}/../lambda-crop"
+  source_dir  = "${path.module}/lambdas/lambda-crop"
   output_path = "${path.module}/crop_function.zip"
 }
 
