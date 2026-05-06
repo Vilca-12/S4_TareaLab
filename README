@@ -1,1 +1,76 @@
-TAREA SEMANA 4
+TAREA SEMANA LAB 4
+AWS + Lambda Integration: Arquitectura Multientorno 
+--Objetivo del Proyecto--
+
+Implementar una arquitectura serverless escalable en Amazon Web Services mediante Infraestructura como Código (IaC), capaz de soportar un ciclo de vida completo de desarrollo.
+
+El sistema se basa en AWS Lambda e integra distintos servicios de AWS según el diseño definido en el diagrama de flujo (Mermaid) incluido en la documentación.
+
+--Alcance de la Infraestructura--
+
+La infraestructura es agnóstica al entorno y permite un despliegue separado en tres fases:
+
+DEV (Desarrollo): Entorno para pruebas iniciales y experimentación.
+QA (Quality Assurance): Entorno espejo para validación y pruebas de calidad.
+PROD (Producción): Entorno final con configuraciones de alta disponibilidad y seguridad.
+
+--Requerimientos del Sistema--
+Arquitectura en AWS
+Cómputo: AWS Lambda con permisos bajo el principio de Least Privilege.
+Integraciones: Conexión con servicios definidos en el diagrama (API Gateway, S3 o bases de datos según corresponda).
+Segregación: Aislamiento completo de recursos entre DEV, QA y PROD.
+
+--Infraestructura como Código (IaC)--
+Herramienta: Terraform
+Gestión de estados: Uso de Workspaces para manejar entornos de forma independiente.
+Parametrización: Archivos de variables (.tfvars) por entorno para evitar duplicación de código.
+
+--Especificaciones de Entrega--
+Fidelidad al diagrama: El código debe representar exactamente los componentes y flujos del archivo Mermaid.
+Flexibilidad: Se permite agregar o ajustar componentes si mejoran la seguridad o estabilidad.
+Evidencia del ciclo de vida:
+Despliegue exitoso en DEV, QA y PROD.
+Capturas de consola AWS mostrando recursos activos y cuenta asociada.
+Política de costo cero: Eliminación total de recursos mediante terraform destroy.
+
+--Consideraciones de Seguridad--
+No se deben incluir credenciales de AWS en el código fuente.
+Todos los recursos deben incluir tags para identificación por entorno.
+
+
+Pasos para la ejecucion 
+-cd terraform
+-terraform init
+-terraform workspace new dev
+-terraform plan -var-file="dev.tfvars"
+-terraform apply -var-file="dev.tfvars" -auto-approve
+-curl -X POST https://e62e50jeae.execute-api.us-east-1.amazonaws.com/upload \
+    -H "Content-Type: image/png" \
+    --data-binary "@../image.png"
+
+-Vaciar bucket manualmente en AWS S3, solo debes seleccionar image-processor-dev-images-juancarlosvilca y le debes dar la la opcion "Emty"
+-terraform destroy -var-file="dev.tfvars" -auto-approve
+
+Entorno QA
+-cd terraform
+-terraform init
+-terraform workspace new qa
+-terraform plan -var-file="qa.tfvars"
+-terraform apply -var-file="qa.tfvars" -auto-approve
+-curl -X POST <TU_API_URL_AQUI> \
+    -H "Content-Type: image/png" \
+    --data-binary "@../image.png"
+-Vaciar bucket manualmente en AWS S3, solo debes seleccionar image-processor-qa-images-juancarlosvilca y darle la opción "Empty"
+-terraform destroy -var-file="qa.tfvars" -auto-approve
+
+Entorno PROD
+-cd terraform
+-terraform init
+-terraform workspace new prod
+-terraform plan -var-file="prod.tfvars"
+-terraform apply -var-file="prod.tfvars" -auto-approve
+-curl -X POST <TU_API_URL_AQUI> \
+    -H "Content-Type: image/png" \
+    --data-binary "@../image.png"
+-Vaciar bucket manualmente en AWS S3, solo debes seleccionar image-processor-prod-images-juancarlosvilca y darle la opción "Empty"
+-terraform destroy -var-file="prod.tfvars" -auto-approve
